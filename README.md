@@ -8,12 +8,11 @@ Creating a new branch is quick AND simple.
 >>>>>>> featurel
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 Creating a new branch.
 
 
 git is a free software.
 =======
 Creating a new branch with dev.
->>>>>>> Stashed changes
 =======
->>>>>>> Stashed changes
