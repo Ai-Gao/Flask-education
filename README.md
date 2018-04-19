@@ -1,5 +1,5 @@
 # Flask--
-Use Flask to create an education web
+Use Flask to create an Education web
 ------------------------------------
 <<<<<<< HEAD
 Creating a new branch is quick AND simple.
