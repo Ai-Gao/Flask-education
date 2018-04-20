@@ -1,0 +1,35 @@
+{% extends 'base.html'%}
+{% block title%}
+Login Page
+{% endblock%}
+
+{% block body%}
+<div class='form'>
+    <h2>登录</h2>
+    <!-- 添加form表单，指定提交方法，和指定提交后跳转的页面 [Blueprint定位]-->
+    <form method='POST' action='{{ url_for('front.login')}}'>
+    <!-- flask-wtf,在表单类中自动添加了 csrf_token，使用时只需在页面中渲染即可，渲染后 html页面有一个隐藏域 -->
+    {{ form.csrf_token }}        
+
+    <!--Bootstrap渲染每个表单项 -->
+    <div class='form-group'>
+        <!-- 1. 渲染 field label-->
+        {{ form.email.label }} {{ form.email(class='form-control') }} 
+    </div>
+    <div class='form-group'>
+        {{ form.password.label }} {{ form.password(class='form-control') }} 
+    </div>
+    
+    <!-- Bootstrap 渲染BooleanField 使用Bootstrap checkbox类--> 
+    <div class='checkbox'>
+        <label>
+            {{ form.remember_me }}  
+            <!-- form.remeber_me.label.text 仅获取label的text属性 -->
+            {{ form.remember_me.label.text}}
+        </label>
+    </div>    
+
+    <!--渲染提交按钮，使用Bootstrap 按钮类 -->
+    {{ form.submit(class='btn btn-primary')}}
+</div>
+{% endblock%}
