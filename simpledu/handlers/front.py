@@ -21,10 +21,13 @@ def login():
     form = LoginForm()
     return render_template('login.html', form=form)
 
-@front.route('/register')
+@front.route('/register', methods=['GET', 'POST'])
 def register():
     # 引入RegisterForm()表单
     form = RegisterForm()
+
+    # validate_on_submit FlaskForm封装的方法，若提交的表单通过验证器验证，返回True,or False
+
     if form.validate_on_submit():
         form.create_user()
         flash('注册成功，请登录！','sucess')

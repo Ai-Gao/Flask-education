@@ -26,6 +26,7 @@ class RegisterForm(FlaskForm):
 
 # 在注册表单中验证某些表单是否已经存在(使用 validationsError)
 # field.data 获取表单数据
+# 自定义表单验证器
 
     def validate_username(self, field):
         if User.query.filter_by(username=field.data).first():
