@@ -1,5 +1,8 @@
+# coding='utf-8'
+
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # db实例化对象不再传入　app对象
 # 创建数据库ORM对象
@@ -20,9 +23,42 @@ class Base(db.Model):
 class User(Base):
     __tablename__ = 'user'
 
+# 用数值表示角色，判断用户权限
+    ROLE_USER = 10
+    ROLE_STAFF = 20
+    ROLE_ADMIN = 30
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(32), unique=True, nullable=False)
+    email = db.Column(db.String(64), unique=True, index=True,nullable=False)
+    _password = db.Column('password',db.String(256), nullable=False)
+    role = db.Column(db.SmallInteger, default=ROLE_USER)
+    job = db.Column(db.String(64))
     publish_courses = db.relationship('Course')
+
+    # 定义一个__repr__方法，输出调用结果
+    def __repr__(self):
+        return '<User:{}>'.format(self.username)
+
+    # 属性装饰器，将方法当做属性调用
+    @property
+    def password(self):
+        return self._password
+    @password.setter
+    def password(self, orig_password):
+        self._password = generate_password_hash(orig_password)
+
+    # 将获取的密码与数据库中的比对
+    def check_password(self, password):
+        return check_password_hash(self._password, password)
+
+    @property
+    def is_admin(self):
+        return self.role == self.ROLE_ADMIN
+
+    @property
+    def is_staff(self):
+        return self.role == self.ROLE_STAFF
 
 class Course(Base):
     __tablename__ = 'course'
