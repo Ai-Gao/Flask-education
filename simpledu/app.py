@@ -44,7 +44,7 @@ def register_blueprints(app):
 def register_extensions(app):
     db.init_app(app)
     Migrate(app, db)
-# 从Flask_login导入LoginManager后，创建该类的实例对象
+# 从Flask_login导入LoginManager(登录管理器)后，创建该类的实例对象
     login_manager = LoginManager()
     login_manager.init_app(app)
 # 使用user_loader装饰器注册一个函数，用来告诉flask_login如何加载用户对象

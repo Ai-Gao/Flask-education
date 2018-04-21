@@ -8,10 +8,10 @@ from wtforms import ValidationError
 
 # 创建RegisterForm()表单类
 class RegisterForm(FlaskForm):
-    username = StringField('用户名', validators=[Required(), Length(3,24), message='用户名长度要在3~24位'])
+    username = StringField('用户名', validators=[Required(), Length(3,24, message='用户名长度要在3~24个字符之间') ])
     email = StringField('邮箱', validators=[Required(), Email(message="请输入合法的email地址")])
-    password = PasswordField('密码', validators=[Required(),Length(6,24), message='密码长度要在6`24位'])
-    repeat_password = PasswordField('重复密码', validators=[Required(), EqualTo('password'), message='密码不相等'])
+    password = PasswordField('密码', validators=[Required(),Length(6,24, message='密码长度要在6~24个字符之间') ])
+    repeat_password = PasswordField('重复密码', validators=[Required(), EqualTo('password', message='密码要相等') ])
     submit = SubmitField('提交')
 
 # 实现注册功能 (根据表单提交的数据创建用户)
