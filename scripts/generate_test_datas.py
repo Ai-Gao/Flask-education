@@ -16,29 +16,35 @@ def iter_users():
             job='研发工程师'
             )
 
-# 从datas读取实验楼课程数据，生成测试数据，将课程教师设置为生成的教师用户
+    # 从datas读取实验楼课程数据，生成测试数据，将课程教师设置为生成的教师用户
 
 def iter_courses():
-    author = User.query.filter_by(username='aimme').first()
-   # with open(os.path.join(os.path.dirname(__file__), '..', 'datas', 'courses.json')) as f:
-   #     courses = json.load(f)
-    for course in range(20):
+    author = User.query.filter_by(username='Jack Lee').first()
+    with open(os.path.join(os.path.dirname(__file__), '..', 'datas', 'courses.json')) as f:
+        courses = json.load(f)
+    for course in courses:
         yield Course(
-               name=fake.sentence(),
-                description=fake.sentence(),
-                image_url='www.baidu.com',
+                name=course['name'],
+                description=course['description'],
+                image_url=course['image_url'],
                 author=author
                 )
 
+
 def iter_chapters():
     for course in Course.query:
-        for i in range(randint(3,10)):
+    # 每个课程生成 3~10 个章节
+        for i in range(randint(3, 10)):
             yield Chapter(
-                    name=fake.sentence(),
-                    course=course,
-                    vedio_url='https://labfile.oss.aliyuncs.com/courses/923/week2_mp4/2-1-1-mac.mp4',
-                    vedio_duration='{}:{}'.format(randint(10,30), randint(10,59))
-                    )
+             # 使用 faker 生成一个句子作为章节名称
+                name=fake.sentence(),
+                course=course,
+             # 所以章节的视频设置成了楼＋课程中的某个视频
+                vedio_url='https://labfile.oss.aliyuncs.com/courses/923/week2_mp4/2-1-1-mac.mp4',
+             # 视频时长
+                vedio_duration='{}:{}'.format(randint(10, 30), randint(10, 59))
+                                                                            )
+
 
 def run():
     for user in iter_users():
@@ -49,9 +55,10 @@ def run():
 
     for chapter in iter_chapters():
         db.session.add(chapter)
-
     try:
         db.session.commit()
     except Exception as e:
         print(e)
         db.session.rollback()
+
+

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Course - {{ course.name }}
+{% endblock %}
+
+{% block body %}
+<div class='jumbotron'>
+课程名称和简介
+<h2>{{ course.name }}</h2>
+<p>{{ course.description }}</p>
+</div>
+
+<div class='row'>
+    <div class='col-md-8'>
+        章节列表
+        <div class='list-group'>
+        {% for chapter in course.chapters %} 
+        <a class='list-group-item' href='#'>
+            <span class='glyphicon glyphicon-play' aira-hidden='true'></span>
+            <span></span>
+        </a>
+        </div>
+    </div>
+    <div class='col-md-4'>
+        课程教师 
+    </div>
+</div>
+{% endblock%}
+
