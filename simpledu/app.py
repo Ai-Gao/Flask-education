@@ -8,7 +8,7 @@ from flask_login import LoginManager
 """app.py 用来创建工厂函数，专门用来创建app实力对象 """
 
 def create_app(config):
-# 可以根据传入的config名称,加载不同的配置
+    # 可以根据传入的config名称,加载不同的配置
 
 #实例化一个Flask类对象
     app = Flask(__name__)
