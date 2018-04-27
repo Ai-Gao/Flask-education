@@ -1,8 +1,10 @@
 {% extends "base.html" %}
+{% from 'macros.html' import render_pagination %}
 {% block title %}Home{% endblock %}
 {% block body %}
 <div class="row">
-    {% for course in courses  %}
+    <!-- 改从pagination 对象获取课程items -->
+    {% for course in pagination.items %}
     <div class="col-sm-6 col-md-4 course">
         <div class="thumbnail">
             <a href="{{url_for('course.detail',course_id=course.id)}}" target='_blank'>
@@ -18,5 +20,6 @@
 
     {% endfor %}
 </div>
-
+<!-- 使用macro 渲染分页组件 -->
+{{ render_pagination(pagination, 'front.index') }}
 {% endblock %}

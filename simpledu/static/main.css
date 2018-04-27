@@ -15,3 +15,7 @@ a:visted {
     overflow:hidden;
     white-space:nowrap;
 }
+
+.nav-pagination{
+    text-align: center;
+}

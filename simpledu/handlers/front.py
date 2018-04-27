@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for,request, current_app
 from simpledu.models import User, Course
 from simpledu.forms import LoginForm, RegisterForm
 from flask import flash
@@ -12,9 +12,23 @@ front = Blueprint('front', __name__)
 
 @front.route('/')
 def index():
+    # 获取参数中传过来的页数
+    page = request.args.get('page', default=1, type=int)
+
+    # 生成分页对象
+    pagination = Course.query.paginate(
+           page=page,
+           per_page=current_app.config['INDEX_PER_PAGE'],
+           error_out=False
+        )
+    return render_template('index.html', pagination=pagination)
+
+
+"""
     # 查询表Course中的数据
     courses = Course.query.all()
     return render_template('index.html', courses=courses)
+"""
 
 @front.route('/login', methods=['GET', 'POST'])
 def login():

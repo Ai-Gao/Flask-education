@@ -1,7 +1,11 @@
+# coding='utf-8'
 class BaseConfig(object):
     """配置基类"""
     """每个配置文件都需要一个SECRET_KEY"""
     SECRET_KEY = 'makesure to set a very secret key'
+ # 分页每页显示的数量通常写在配置文件中
+
+    INDEX_PER_PAGE = 6
 
 class DevelopmentConfig(BaseConfig):
     """开发环境配置"""
