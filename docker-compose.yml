@@ -1,0 +1,45 @@
+version: "2"
+services:
+   web:
+     build: .
+     command: python -u manage.py
+     ports:
+         - "80:5000"
+     volumes:
+           - .:/simpledu
+     depends_on: 
+        - mysqldb
+     networks:
+            - inner 
+
+   mysqldb:
+     image: mysql:5.7.22
+     container_name: mysql
+     restart: always
+     environment:
+         - MYSQL_ROOT_PASSWORD=gaofei123456
+         - MYSQL_DATABASE=simpledu
+         - MYSQL_USER=aimee
+         - MYSQL_PASSWORD=gaofei123456
+     volumes:
+         - "./data/db/mysql:/var/lib/mysql"
+     networks:
+            - inner 
+   myadmin:
+       image: phpmyadmin/phpmyadmin
+       container_name: phpmyadmin
+       ports:
+           - "8081:80"
+       environment:
+            PMA_HOST: mysqldb
+            PMA_PORT: 3306
+       restart: always
+       depends_on:
+           - mysqldb
+       networks:
+            - inner 
+
+networks:
+  inner:
+    driver: bridge
+    
