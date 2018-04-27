@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ chapter.name }}
+{% endblock %}
+
+{% block head_css %}
+<!-- 使用 super 语法集成父block的css文件 -->
+{{ super() }}
+
+{% endblock %}
