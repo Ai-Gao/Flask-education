@@ -7,4 +7,3 @@ course = Blueprint('course', __name__, url_prefix='/courses')
 def detail(course_id):
     course = Course.query.get_or_404(course_id)
     return render_template('course/detail.html', course=course)
-

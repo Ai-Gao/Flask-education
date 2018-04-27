@@ -5,26 +5,35 @@ Course - {{ course.name }}
 {% endblock %}
 
 {% block body %}
-<div class='jumbotron'>
-课程名称和简介
-<h2>{{ course.name }}</h2>
-<p>{{ course.description }}</p>
+<div class="jumbotron">
+    <h2>{{course.name}}</h2>
+    <p>{{course.description}}</p>
+    <p><a class="btn btn-primary btn-lg btn-success" href="#" role="button">开始实验</a></p>
 </div>
-
-<div class='row'>
-    <div class='col-md-8'>
-        章节列表
-        <div class='list-group'>
-        {% for chapter in course.chapters %} 
-        <a class='list-group-item' href='#'>
-            <span class='glyphicon glyphicon-play' aira-hidden='true'></span>
-            <span></span>
-        </a>
-        </div>
+<div class="row">
+    <div class="col-md-8">
+            <ul class='list-group'>
+                {% for chapter in course.chapters  %}
+                <a href="chapter_detail/{{chapter.id}}" class='list-group-item'>
+                <span class='glyphicon glyphicon-play-circle' aria-hidden='true'></span>
+                <span>{{ chapter.name }} &nbsp; ({{ chapter.vedio_duration }})</span>
+                </a>
+                {% endfor %}
+            </ul>
     </div>
     <div class='col-md-4'>
-        课程教师 
+        <h3>课程教师</h3> 
+        <div class='media-left'>
+            <a href='#'>
+                <img class='media-object' src='' alt='64x64'/>
+            </a> 
+        </div>
+        <div class='media-body'>
+            <h4 class='media-heading'>{{ course.author.username }}</h4> 
+        </div>
+
     </div>
 </div>
+
 {% endblock%}
 

@@ -75,7 +75,7 @@ class Course(Base):
     image_url = db.Column(db.String(256))
     author_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'))
     author = db.relationship('User',uselist=False)
-   #author = db.User.filter_by(user_id = author_id)-one()
+   #author = User.query.filter_by(user_id = author_id).one()
     chapters = db.relationship('Chapter')
 
     def __repr__(self):
