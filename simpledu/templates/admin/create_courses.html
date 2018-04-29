@@ -1,0 +1,7 @@
+{% extends 'index.html' %}
+{% from 'macros.html' import render_form %}
+
+{% block operation %}
+{{ render_form( form, url_for('admin.cureate_course')) }}
+{% endblock %}
+

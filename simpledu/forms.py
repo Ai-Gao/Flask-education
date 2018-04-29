@@ -2,9 +2,10 @@
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import Length, Email, EqualTo, Required, Regexp
-from simpledu.models import db, User
-from wtforms import ValidationError
+from wtforms.validators import Length, Email, EqualTo, Required, Regexp, URL, NumberRange
+from simpledu.models import db, User, Course
+from wtforms import ValidationError, TextAreaField, IntegerField
+
 # 创建RegisterForm()表单类
 class RegisterForm(FlaskForm):
     username = StringField('用户名', validators=[Required(), Length(3,24, message='用户名长度要在3~24个字符之间')])
@@ -58,3 +59,36 @@ class LoginForm(FlaskForm):
         user = User.query.filter_by(username=self.username.data).first()
         if user and not user.check_password(field.data):
             raise ValidationError('密码错误')
+
+# 创建CourseForm 用于课程的添加编辑
+class CourseForm(FlaskForm):
+    name = StringField('课程名称', validators=[Required(),Length(5, 32)])
+    description = TextAreaField('课程简介', validators=[Required(), Length(20, 256)])
+    image_url = StringField('封面图片', validators=[Required(), URL()])
+    author_id = IntegerField('作者ID', validators=[Required(), NumberRange(min=1,message='无效的用户ID')])
+    submit = SubmitField('提交')
+
+    def validate_author_id(self, field):
+        # 首先判断当前author是否存在,继而对课程进行编辑,删除操作
+        # -- Error --
+        #if not User.query.filter_by(username=self.field.data):
+
+        if not User.query.get(self.author_id.data):
+            raise ValidationError('用户不存在')
+
+    def create_course(self):
+        course = Course()
+        # 使用课程表单数据填充 course 对象
+        # 使用表单字段中的数据填充传递的obj
+
+        self.populate_obj(course)
+        db.session.add(course)
+        db.session.commit()
+        return course
+
+    def update_course(self, course):
+        self.populate_obj(course)
+        db.session.add(course)
+        db.session.commit()
+        return course
+
