@@ -2,10 +2,5 @@
 {% from 'macros.html' import render_form %}
 
 {% block admin %}
-<h4>添加课程</h4>
-{{ render_form( form, url_for('admin.create_course')) }}
+{{ render_form(form, url_for('admin.edit_course', course_id=course.id)) }}
 {% endblock %}
-
-
-
-

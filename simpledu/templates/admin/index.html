@@ -13,7 +13,11 @@ Admin
             <a href='{{url_for( 'admin.courses') }}' class='list-group-item'>课程</a>
         </div>
 
-        {% block operation %}{% endblock %}
+        {% block operation %}
+        <a href='{{ url_for('admin.create_course')}} '>
+            <span class='glyphicon glyphicon-plus' aria-hidden='true'></span>添加课程
+        </a>
+        {% endblock %}
     </div>
 
     <div class='col-md-9'>
