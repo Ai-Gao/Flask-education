@@ -5,18 +5,20 @@ Course - {{ course.name }}
 {% endblock %}
 
 {% block body %}
+<!--jumbotron -->
 <div class="jumbotron">
     <h2>{{course.name}}</h2>
     <p>{{course.description}}</p>
     <p><a class="btn btn-primary btn-lg btn-success" href="#" role="button">开始实验</a></p>
 </div>
+<!-- chapter show list -->
 <div class="row">
     <div class="col-md-8">
             <ul class='list-group'>
                 {% for chapter in course.chapters  %}
-                <a href="chapter_detail/{{chapter.id}}" class='list-group-item'>
+                <a href="{{ url_for('course.chapter', course_id= course.id, chapter_id = chapter.id) }}" class='list-group-item'>
                 <span class='glyphicon glyphicon-play-circle' aria-hidden='true'></span>
-                <span>{{ chapter.name }} &nbsp; ({{ chapter.vedio_duration }})</span>
+                <span>{{ chapter.name }}&nbsp;({{ chapter.vedio_duration }})</span>
                 </a>
                 {% endfor %}
             </ul>

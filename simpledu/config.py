@@ -7,10 +7,12 @@ class BaseConfig(object):
 
     INDEX_PER_PAGE = 6
 
+    ADMIN_PER_PAGE = 15
+
 class DevelopmentConfig(BaseConfig):
     """开发环境配置"""
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:123456@mysqldb:3306/simpledu?charset=utf8'
+    SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:123@127.0.0.1:3306/simpledu?charset=utf8'
 
 class ProductionConfig(BaseConfig):
     """生产环境配置"""

@@ -2,7 +2,9 @@
 <html lang="zh-CN">
     <head>
         <meta charset="utf-8">
-        <title>{% block title %}{% endblock %}</title>
+        <title>
+            {% block title %}{% endblock %}
+        </title>
     </head>
 
     <body>
@@ -25,6 +27,10 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="{{url_for('front.index')}}">课程<span class="sr-only">(current)</span></a></li>
                         <li><a href="#">直播</a></li>
+                        {% if current_user.is_authenticated and current_user.is_admin %}
+                        <li><a href='{{url_for('admin.index')}}'>控制台</a></li>
+                        {% endif %}
+
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if not current_user.is_authenticated %}                                                                                                                         <li><a href="{{url_for('front.register')}}">注册</a></li>
@@ -59,9 +65,9 @@
 
             {% block head_css %}
             <!-- css 文件 -->
-            <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
             <link rel="stylesheet" href="static/main.css" type='text/css' >
 
+            <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
             {% endblock %}
             {% block body %}{% endblock %}
 

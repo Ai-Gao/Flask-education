@@ -1,0 +1,37 @@
+{% extends 'admin/index.html' %}
+{% from 'macros.html' import render_pagination %}
+
+{% block title %}
+Admin - courses
+{% endblock %}
+
+{% block admin %}
+<table class='table'>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>名称</th>
+            <th>作者</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for course in pagination.items %}
+        <tr>
+            <td>{{ course.id }}</td>
+            <td>{{ course.name }}</td>
+            <td>{{ course.author.username }}</td>
+        </tr>
+        
+        {% endfor %}
+        
+
+    </tbody>
+
+    <tr>
+
+    </tr>
+    </th>
+</table>
+{% endblock %}

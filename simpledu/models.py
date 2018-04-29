@@ -101,6 +101,11 @@ class Chapter(Base):
     course_id = db.Column(db.Integer, db.ForeignKey('course.id', ondelete='CASCADE'))
     course = db.relationship('Course', uselist=False)
 
+
+    @property
+    def url(self):
+        return url_for('course.chapter', course_id=self.course.id, chapter_id=self.id)
+
     def __repr__(self):
         return '<Chapter:{}>'.format(self.name)
 

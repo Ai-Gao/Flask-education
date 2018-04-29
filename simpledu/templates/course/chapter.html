@@ -6,5 +6,18 @@
 {% block head_css %}
 <!-- 使用 super 语法集成父block的css文件 -->
 {{ super() }}
+<!-- 引入video-js.css CDN文件-->
+<link href='http://vjs.zencdn.net/6.2.7/video-js.css' rel='stylesheet'>
+{% endblock %}
 
+{% block body %}
+<video class='video-js vjs-16-9 vjs-big-play-centered' data-setup='{ "fluid":true, "controls":true }'>
+    <!-- 视频地址放入source,并设置好视频类型 -->
+    <source src='{{ chapter.vedio_url }}' type='video/mp4'>
+</video>
+{% endblock %}
+
+{% block tail_js %}
+{{ super() }}
+<script src='http://vjs.zencdn.net/6.2.8/video.js'></script>
 {% endblock %}
