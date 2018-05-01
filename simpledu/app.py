@@ -4,7 +4,7 @@ from simpledu.config import configs
 from simpledu.models import db, Course, User
 from flask_migrate import Migrate
 from flask_login import LoginManager
-
+from flask_sockets import Sockets
 """app.py 用来创建工厂函数，专门用来创建app实力对象 """
 
 def create_app(config):
@@ -34,10 +34,13 @@ def create_app(config):
 # 定义一个用于注册蓝图的函数
 
 def register_blueprints(app):
-    from .handlers import front, course, admin
+    from .handlers import front, course, admin, ws
     app.register_blueprint(front)
     app.register_blueprint(course)
     app.register_blueprint(admin)
+    sockets = Sockets(app)
+    sockets.register_blueprint(ws)
+    app.register_blueprint(ws)
 
 # 定义register_extensions函数，用于将Flask拓展注册到app
 
