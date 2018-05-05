@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, current_app, redirect, url_for, flash
 from simpledu.decorators import admin_required
 from simpledu.models import Course, db, User
-from simpledu.forms import CourseForm, RegisterForm
+from simpledu.forms import CourseForm, RegisterForm, UserForm
 from flask_login import current_user
 
 
@@ -74,8 +74,8 @@ def users():
 @admin.route('/users/create', methods=['GET','POST'])
 @admin_required
 def create_user():
-    #form = UserForm()
-    form = RegisterForm()
+    form = UserForm()
+    #form = RegisterForm()
     if form.validate_on_submit():
        form.create_user()
        flash('课程创建成功', 'success')

@@ -8,10 +8,10 @@ from wtforms import ValidationError, TextAreaField, IntegerField
 
 # 创建RegisterForm()表单类
 class RegisterForm(FlaskForm):
-    username = StringField('用户名', validators=[Required(), Length(3,24, message='用户名长度要在3~24个字符之间')])
-    email = StringField('邮箱', validators=[Required(), Email(message="请输入合法的email地址")])
-    password = PasswordField('密码', validators=[Required(),Length(6,24, message='密码长度要在6~24个字符之间') ])
-    repeat_password = PasswordField('重复密码', validators=[Required(), EqualTo('password', message='密码要相等') ])
+    username = StringField('用户名', validators=[Required(message='用户名不能为空'), Length(3,24, message='用户名长度要在3~24个字符之间')])
+    email = StringField('邮箱', validators=[Required(message='邮箱不能为空'), Email(message="请输入合法的email地址")])
+    password = PasswordField('密码', validators=[Required(message='密码不能为空'),Length(6,24, message='密码长度要在6~24个字符之间') ])
+    repeat_password = PasswordField('重复密码', validators=[Required(message='密码不能为空'), EqualTo('password', message='密码要相等') ])
     submit = SubmitField('提交')
 
 # 实现注册功能 (根据表单提交的数据创建用户)
@@ -34,7 +34,7 @@ class RegisterForm(FlaskForm):
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('邮箱已经存在')
-
+"""
    # 创建用户用于用户信息的修改
     def create_user(self):
         user=User(username=self.username.data,
@@ -44,6 +44,7 @@ class RegisterForm(FlaskForm):
         db.session.add(user)
         db.session.commit()
         return user
+"""
 
 # 创建LoginForm()表单类
 class LoginForm(FlaskForm):
@@ -100,13 +101,13 @@ class CourseForm(FlaskForm):
         db.session.add(course)
         db.session.commit()
         return course
-"""
+
 # 创建添加用户表单
 class UserForm(FlaskForm):
     username = StringField('用户名', validators=[Required(), Length(3,24)])
     #id = IntegerField('用户ID', validators=[Required(), NumberRange(min=1, message='无效的用户ID')])
     email = StringField('邮箱', validators=[Required(), Email()])
-    #password = PasswordField('密码', validators=[Required(), Length(6,24)])
+    password = PasswordField('密码', validators=[Required(), Length(6,24)])
     #role = IntegerField('用户角色', validators=[Required(),NumberRange(min=1, message='无效的用户角色')])
     job = StringField('工作', validators=[Required(), Length(3,24)])
     submit = SubmitField('提交')
@@ -128,5 +129,5 @@ class UserForm(FlaskForm):
         db.session.update(user)
         db.session.commit()
         return user
-"""
+
 
