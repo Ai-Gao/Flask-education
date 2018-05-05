@@ -1,0 +1,40 @@
+{% extends 'admin/index.html' %}
+{% from 'macros.html' import render_pagination %}
+{% block title %}
+Admin-User
+{% endblock%}
+
+{% block admin %}
+
+<table class='table'>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>名称</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for user in pagination.items %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>
+                <div class='btn-group' role='group'>
+                    <a href='{{url_for('admin.edit_user', user_id=user.id)}}' title='编辑' type='button' class='btn btn-default'>
+                        <span class='glyphicon glyphicon-pencil' aria-hidden='true' title='编辑'></span>
+                    </a> 
+
+                    <a href='{{url_for('admin.delete_user', user_id=user.id)}}' title='删除' type='button' class='btn btn-default'>
+                    <span class='glyphicon glyphicon-trash' aria-hidden='true' title='删除'></span>
+                    </a>
+                </div> 
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{{ render_pagination(pagination,'admin.users')}}
+{% endblock %}

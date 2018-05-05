@@ -56,3 +56,5 @@ def register_extensions(app):
         return User.query.get(id)
 
     login_manager.login_view = 'front.login'
+    login_manager.login_message = '登陆后才能访问该网页'
+    login_manager.login_message_category = 'danger'

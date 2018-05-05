@@ -1,7 +1,7 @@
 # coding='utf-8'
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField
 from wtforms.validators import Length, Email, EqualTo, Required, Regexp, URL, NumberRange
 from simpledu.models import db, User, Course
 from wtforms import ValidationError, TextAreaField, IntegerField
@@ -35,6 +35,15 @@ class RegisterForm(FlaskForm):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('邮箱已经存在')
 
+   # 创建用户用于用户信息的修改
+    def create_user(self):
+        user=User(username=self.username.data,
+                  email=self.email.data,
+                  password=self.password.data
+                )
+        db.session.add(user)
+        db.session.commit()
+        return user
 
 # 创建LoginForm()表单类
 class LoginForm(FlaskForm):
@@ -91,4 +100,33 @@ class CourseForm(FlaskForm):
         db.session.add(course)
         db.session.commit()
         return course
+"""
+# 创建添加用户表单
+class UserForm(FlaskForm):
+    username = StringField('用户名', validators=[Required(), Length(3,24)])
+    #id = IntegerField('用户ID', validators=[Required(), NumberRange(min=1, message='无效的用户ID')])
+    email = StringField('邮箱', validators=[Required(), Email()])
+    #password = PasswordField('密码', validators=[Required(), Length(6,24)])
+    #role = IntegerField('用户角色', validators=[Required(),NumberRange(min=1, message='无效的用户角色')])
+    job = StringField('工作', validators=[Required(), Length(3,24)])
+    submit = SubmitField('提交')
+
+
+    def validate_user(self,field):
+        if not User.query.get(self.id.data):
+            raise ValidationError('用户不存在')
+
+    def create_user(self):
+        user=User()
+        self.populate_obj(user)
+        db.session.add(user)
+        db.session.commit()
+        return user
+
+    def update_user(self,user):
+        self.populate_obj(user)
+        db.session.update(user)
+        db.session.commit()
+        return user
+"""
 
