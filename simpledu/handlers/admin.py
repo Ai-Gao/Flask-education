@@ -77,12 +77,12 @@ def create_user():
     form = UserForm()
     #form = RegisterForm()
     if form.validate_on_submit():
-       form.create_user()
-       flash('课程创建成功', 'success')
-       return redirect(url_for('admin.users'))
+            form.create_user()
+            flash('课程创建成功', 'success')
+            return redirect(url_for('admin.users'))
     return render_template('admin/create_users.html', form=form)
 
-
+"""添加\编辑用户,课程时会存在一个重复添加\编辑的问题 应该考虑异常处理 """
 
 # 编辑用户
 @admin.route('/users/<int:user_id>/edit', methods=['GET', 'POST'])
@@ -90,7 +90,8 @@ def create_user():
 
 def edit_user(user_id):
     user = User.query.get_or_404(user_id)
-    form = RegisterForm(obj=user)
+    #form = RegisterForm(obj=user)
+    form = UserForm(obj=user)
     if form.is_submitted():
         form.populate_obj(user)
         db.session.add(user)
@@ -98,11 +99,21 @@ def edit_user(user_id):
             db.session.commit()
         except:
             db.session.rollback()
-            flash('用户名已经存在', 'error')
+            flash('用户名已经存在', 'danger')
         else:
             flash('用户信息更新成功', 'success')
             return redirect(url_for('admin.users'))
     return render_template('admin/edit_user.html', form=form, user=user)
+
+"""
+    # 不做异常处理
+    if form.validate_on_submit():
+        form.update_user(user)
+        flash('用户信息更新成功', 'success')
+        return redirect(url_for('admin.users'))
+    return render_template('admin/edit_user.html', form=form,user=user)
+"""
+
 
 # 删除用户
 @admin.route('/users/<int:user_id>/delete', methods=['POST', 'GET'])
