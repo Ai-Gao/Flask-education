@@ -90,9 +90,8 @@ class CourseForm(FlaskForm):
             raise ValidationError('用户不存在')
 
     # 验证添加的课程是否已经存在
-
-    __import__('pdb').set_trace()
-    def validate_course(self, field):
+    # 验证已有的属性
+    def validate_name(self, field):
         if Course.query.filter_by(name = field.data).first():
             raise ValidationError('课程已经存在')
 
@@ -100,7 +99,6 @@ class CourseForm(FlaskForm):
         course = Course()
         # 使用课程表单数据填充 course 对象
         # 使用表单字段中的数据填充传递的obj
-
         self.populate_obj(course)
         db.session.add(course)
         db.session.commit()
@@ -114,6 +112,8 @@ class CourseForm(FlaskForm):
 
 # 创建添加用户表单
 class UserForm(FlaskForm):
+    user = None
+
     username = StringField('用户名', validators=[Required(), Length(3,24)])
     #id = IntegerField('用户ID', validators=[Required(), NumberRange(min=1, message='无效的用户ID')])
     email = StringField('邮箱', validators=[Required(), Email()])
@@ -122,18 +122,19 @@ class UserForm(FlaskForm):
     job = StringField('工作', validators=[Required(), Length(3,24)])
     submit = SubmitField('提交')
 
-
-    def validate_user(self,field):
-        if not User.query.get(self.id.data):
-            raise ValidationError('用户不存在')
-
     def validate_username(self,field):
-        if User.query.filter_by(username = field.data).first():
-            raise ValidationError('用户名字已经存在')
+        #创建user 验证,update user 并且字段值发生改变
+        if not self.user or self.user.username != field.data:
+            if User.query.filter_by(username = field.data).first():
+                raise ValidationError('用户名字已经存在')
+
+    def set_user(self,user):
+        self.user= user
 
     def validate_email(self,field):
-        if User.query.filter_by(email = field.data).first():
-            raise ValidationError('邮箱已经存在')
+        if self.user and self.user.email != field.data:
+            if User.query.filter_by(email = field.data).first():
+                raise ValidationError('邮箱已经存在')
 
     def create_user(self):
         user=User()

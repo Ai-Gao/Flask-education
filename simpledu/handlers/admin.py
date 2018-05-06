@@ -42,11 +42,26 @@ def create_course():
 def edit_course(course_id):
     course = Course.query.get_or_404(course_id)
     form = CourseForm(obj=course)
+    if form.is_submitted():
+        form.populate_obj(course)
+        db.session.add(course)
+        try:
+            db.session.commit()
+        except:
+            flash('课程已经存在', 'danger')
+            db.session.rollback()
+        else:
+            flash('课程修改成功', 'success')
+            return redirect(url_for('admin.courses'))
+    return render_template('admin/edit_courses.html',form=form,course=course)
+
+    """
     if form.validate_on_submit():
         form.update_course(course)
         flash('课程修改成功', 'success')
         return redirect(url_for('admin.courses'))
     return render_template('admin/edit_courses.html', form=form, course=course)
+    """
 
 # 删除课程
 @admin.route('/courses/<int:course_id>/delete')
@@ -82,7 +97,6 @@ def create_user():
             return redirect(url_for('admin.users'))
     return render_template('admin/create_users.html', form=form)
 
-"""添加\编辑用户,课程时会存在一个重复添加\编辑的问题 应该考虑异常处理 """
 
 # 编辑用户
 @admin.route('/users/<int:user_id>/edit', methods=['GET', 'POST'])
@@ -92,27 +106,26 @@ def edit_user(user_id):
     user = User.query.get_or_404(user_id)
     #form = RegisterForm(obj=user)
     form = UserForm(obj=user)
-    if form.is_submitted():
-        form.populate_obj(user)
-        db.session.add(user)
-        try:
-            db.session.commit()
-        except:
-            db.session.rollback()
-            flash('用户名已经存在', 'danger')
-        else:
-            flash('用户信息更新成功', 'success')
-            return redirect(url_for('admin.users'))
-    return render_template('admin/edit_user.html', form=form, user=user)
-
-"""
-    # 不做异常处理
+    form.set_user(user)
     if form.validate_on_submit():
         form.update_user(user)
         flash('用户信息更新成功', 'success')
         return redirect(url_for('admin.users'))
     return render_template('admin/edit_user.html', form=form,user=user)
-"""
+
+   # if form.validate_on_submit():
+   #     form.populate_obj(user)
+   #     db.session.add(user)
+   #     try:
+   #         db.session.commit()
+   #     except:
+   #         db.session.rollback()
+   #         flash('用户名已经存在', 'danger')
+   #     else:
+   #         flash('用户信息更新成功', 'success')
+   #         return redirect(url_for('admin.users'))
+   # return render_template('admin/edit_user.html', form=form, user=user)
+
 
 
 # 删除用户
