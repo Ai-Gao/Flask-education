@@ -42,18 +42,25 @@ def create_course():
 def edit_course(course_id):
     course = Course.query.get_or_404(course_id)
     form = CourseForm(obj=course)
-    if form.is_submitted():
-        form.populate_obj(course)
-        db.session.add(course)
-        try:
-            db.session.commit()
-        except:
-            flash('课程已经存在', 'danger')
-            db.session.rollback()
-        else:
-            flash('课程修改成功', 'success')
-            return redirect(url_for('admin.courses'))
-    return render_template('admin/edit_courses.html',form=form,course=course)
+    form.set_course(course)
+    if form.validate_on_submit():
+        form.update_course(course)
+        flash('课程创建成功','success')
+        redirect(url_for('admin.courses'))
+    return render_template('admin/edit_courses.html', form=form, course=course)
+
+    #if form.is_submitted():
+    #    form.populate_obj(course)
+    #    db.session.add(course)
+    #    try:
+    #        db.session.commit()
+    #    except:
+    #        flash('课程已经存在', 'danger')
+    #        db.session.rollback()
+    #    else:
+    #        flash('课程修改成功', 'success')
+    #        return redirect(url_for('admin.courses'))
+    #return render_template('admin/edit_courses.html',form=form,course=course)
 
     """
     if form.validate_on_submit():

@@ -81,19 +81,37 @@ class CourseForm(FlaskForm):
     author_id = IntegerField('作者ID', validators=[Required(), NumberRange(min=1,message='无效的用户ID')])
     submit = SubmitField('提交')
 
+    course = None
+
+   # 创建课程时,编辑课程时都需要验证
     def validate_author_id(self, field):
         # 首先判断当前author是否存在,继而对课程进行编辑,删除操作
-        # -- Error --
-        #if not User.query.filter_by(username=self.field.data):
 
-        if not User.query.get(self.author_id.data):
-            raise ValidationError('用户不存在')
+        if not self.course or self.course.author_id != field.data:
+            if Course.query.filter_by(author_id=field.data).first():
+                raise ValidationError('用户已存在')
+
+        #if not User.query.get(self.author_id.data):
+        #    raise ValidationError('用户不存在')
 
     # 验证添加的课程是否已经存在
     # 验证已有的属性
     def validate_name(self, field):
-        if Course.query.filter_by(name = field.data).first():
-            raise ValidationError('课程已经存在')
+        if not self.course or self.course.name != field.data:
+            if Course.query.filter_by(name=field.data).first():
+                raise ValidationError('课程已经存在')
+
+        #if Course.query.filter_by(name = field.data).first():
+        #    raise ValidationError('课程已经存在')
+
+    #def validate_author_id(self, field):
+    #    if not self.course or self.course.author_id != field.data:
+    #        if Course.query.filter_by(field.data):
+    #            raise ValidationError('用户ID已经存在')
+
+    # 定义一个方法保存未修改的数据对象
+    def set_course(self, course):
+        self.course = course
 
     def create_course(self):
         course = Course()
@@ -112,7 +130,6 @@ class CourseForm(FlaskForm):
 
 # 创建添加用户表单
 class UserForm(FlaskForm):
-    user = None
 
     username = StringField('用户名', validators=[Required(), Length(3,24)])
     #id = IntegerField('用户ID', validators=[Required(), NumberRange(min=1, message='无效的用户ID')])
@@ -122,6 +139,7 @@ class UserForm(FlaskForm):
     job = StringField('工作', validators=[Required(), Length(3,24)])
     submit = SubmitField('提交')
 
+    user = None
     def validate_username(self,field):
         #创建user 验证,update user 并且字段值发生改变
         if not self.user or self.user.username != field.data:
