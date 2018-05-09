@@ -3,7 +3,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField
 from wtforms.validators import Length, Email, EqualTo, Required, Regexp, URL, NumberRange
-from simpledu.models import db, User, Course
+from simpledu.models import db, User, Course, Live
 from wtforms import ValidationError, TextAreaField, IntegerField
 
 # 创建RegisterForm()表单类
@@ -91,8 +91,8 @@ class CourseForm(FlaskForm):
             if Course.query.filter_by(author_id=field.data).first():
                 raise ValidationError('用户已存在')
 
-        #if not User.query.get(self.author_id.data):
-        #    raise ValidationError('用户不存在')
+        if not User.query.get(field.data):
+            raise ValidationError('无效的用户ID')
 
     # 验证添加的课程是否已经存在
     # 验证已有的属性
@@ -135,7 +135,7 @@ class UserForm(FlaskForm):
     #id = IntegerField('用户ID', validators=[Required(), NumberRange(min=1, message='无效的用户ID')])
     email = StringField('邮箱', validators=[Required(), Email()])
     password = PasswordField('密码', validators=[Required(), Length(6,24)])
-    #role = IntegerField('用户角色', validators=[Required(),NumberRange(min=1, message='无效的用户角色')])
+    role = IntegerField('用户角色', validators=[Required(),NumberRange(min=1, message='无效的用户角色')])
     job = StringField('工作', validators=[Required(), Length(3,24)])
     submit = SubmitField('提交')
 
@@ -167,4 +167,28 @@ class UserForm(FlaskForm):
         db.session.commit()
         return user
 
+# 定义LiveForm
+class LiveForm(FlaskForm):
+    name = StringField('直播名', validators=[Required(), Length(3,24)])
+    up_id = IntegerField('用户ID', validators=[Required(), NumberRange(min=1, message='无效的用户ID')])
+    live_url = StringField('直播地址', validators=[Required(), URL()])
+    submit = SubmitField('提交')
 
+# 自定义验证函数 直播名
+    def validate_name(self, field):
+        if Live.query.filter_by(name=field.data).first():
+            raise ValidationError('直播名已存在')
+
+    def validate_id(self, field):
+        #if User.query.filter_by(id=field.data).first():
+        #    raise ValidationError('用户名已存在')
+        if not User.query.get(field.data):
+            raise ValidationError('无效的用户ID')
+
+    # 添加直播到数据库
+    def create_live(self):
+        live = Live()
+        self.populate_obj(live)
+        db.session.add(live)
+        db.session.commit()
+        return live

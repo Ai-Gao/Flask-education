@@ -39,8 +39,9 @@ class User(Base):
     role = db.Column(db.SmallInteger, default=ROLE_USER)
     job = db.Column(db.String(64))
     publish_courses = db.relationship('Course')
+    publish_live = db.relationship('Live')
 
-    # 定义一个__repr__方法，输出调用结果
+   # 定义一个__repr__方法，输出调用结果
     def __repr__(self):
         return '<User:{}>'.format(self.username)
 
@@ -109,4 +110,19 @@ class Chapter(Base):
     def __repr__(self):
         return '<Chapter:{}>'.format(self.name)
 
+class Live(Base):
+    __tablename__='live'
+
+    id = db.Column(db.Integer, primary_key=True, unique=True, nullable=True)
+    name = db.Column(db.String(32), unique=True, nullable=True, index=True)
+    up_id = db.Column(db.Integer, db.ForeignKey('user.id',ondelete='CASCADE'))
+    up = db.relationship('User', uselist=False)
+    live_url = db.Column(db.String(256), unique=True, index=True, nullable=True)
+
+    def __repr__(self):
+        return '<Live:{}>'.format(self.name)
+
+    @property
+    def url(self, live_id):
+        return redirect(url_for('admin.live', live_id=self.id))
 

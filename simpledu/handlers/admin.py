@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, current_app, redirect, url_for, flash
 from simpledu.decorators import admin_required
-from simpledu.models import Course, db, User
-from simpledu.forms import CourseForm, RegisterForm, UserForm
+from simpledu.models import Course, db, User, Live
+from simpledu.forms import CourseForm, RegisterForm, UserForm, LiveForm
 from flask_login import current_user
 
 
@@ -147,3 +147,26 @@ def delete_user(user_id):
     db.session.commit()
     flash('用户已经被删除', 'success')
     return redirect(url_for('admin.users'))
+
+# 直播管理页面
+@admin.route('/live')
+@admin_required
+def live():
+    page = request.args.get('page', default=1,type=int)
+    pagination = Live.query.paginate(
+            page = page,
+            per_page = current_app.config['ADMIN_PER_PAGE'],
+            error_out=False
+            )
+    return render_template('admin/lives.html', pagination=pagination)
+
+# 添加直播路由
+@admin.route('/live/create', methods=['GET', 'POST'])
+@admin_required
+def create_live():
+    form = LiveForm()
+    if form.validate_on_submit():
+        form.create_live()
+        flash('直播创建成功', 'success')
+        return redirect(url_for('admin.live'))
+    return render_template('admin/create_lives.html', form=form)

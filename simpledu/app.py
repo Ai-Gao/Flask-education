@@ -34,10 +34,11 @@ def create_app(config):
 # 定义一个用于注册蓝图的函数
 
 def register_blueprints(app):
-    from .handlers import front, course, admin, ws
+    from .handlers import front, course, admin, ws, live
     app.register_blueprint(front)
     app.register_blueprint(course)
     app.register_blueprint(admin)
+    app.register_blueprint(live)
     sockets = Sockets(app)
     sockets.register_blueprint(ws)
     app.register_blueprint(ws)

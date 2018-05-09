@@ -11,6 +11,7 @@ Admin
 
             <a href='{{url_for('admin.users')}}' class='list-group-item'>用户</a>
             <a href='{{url_for( 'admin.courses') }}' class='list-group-item'>课程</a>
+            <a href='{{url_for('admin.live')}}' class='list-group-item'>直播</a>
         </div>
 
         {% block operation %}
@@ -22,6 +23,11 @@ Admin
             <a href='{{url_for('admin.create_user')}}' class='btn btn-primary'>
                 <span class='glyphicon glyphicon-plus' aria-hidden='true'></span>
                 添加用户
+            </a>
+            <p></p>
+            <a href='{{url_for('admin.create_live')}}' type='button' class='btn btn-primary'>
+            <span class='glyphicon glyphicon-plus' aria-hidden='true'></span>
+            Add Live 
             </a>
         {% endblock %}
     </div>

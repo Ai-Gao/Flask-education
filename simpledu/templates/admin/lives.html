@@ -1,0 +1,32 @@
+{% extends 'admin/index.html' %} 
+{% from 'macros.html' import render_pagination %}
+{% block title %}
+Admin-Live
+{% endblock %}
+
+{% block admin %}
+<!-- 渲染数据库中的表 -->
+<table class='table'>
+    <thead>
+        <tr>
+            <th>直播ID</th> 
+            <th>直播名称</th> 
+            <th>直播用户ID</th> 
+        </tr>
+    </head>
+
+    <tbody>
+        {% for live in pagination.items %}
+        
+        <tr>
+            <td>{{ live.id }}</td> 
+            <td>{{ live.name }}</td> 
+            <td>{{ live.up.id }}</td> 
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{{ render_pagination(pagination,'admin.live' ) }}
+
+{% endblock %}
