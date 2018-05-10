@@ -4,13 +4,42 @@
 Live
 {% endblock %}
 
+{% block head_css %}
+{{ super() }}
+
+<style>
+#message-box{
+    background-color:#eee;
+    font-size:15px;
+    padding:3px 0 0 5px;
+    width:100%;
+    height:455px;
+    border-radius:3px;
+    margin-bottom:10px;
+    overflow:scroll;
+}
+</style>
+
+{% endblock %}
+
 {% block body %}
 <div class='row'>
     <div class='col-md-9'>
-        <video id='videoElement' width='100%' height='500px' controls='controls'></video> 
+        <video id='videoElement' width='100%' height='500px' controls='controls'></video>
     </div>
-    <div class='col-md-3'></div>
+
+    <div class='col-md-3'>
+        <div id='message-box'>
+        </div>
+        <div class='input-group' id='message-form'>
+            <input type='text' class='form-control'>
+            <span class='input-group-btn'>
+                <button class='btn btn-primary' type='button'>发言</button>
+            </span>
+        </div>
+    </div>
 </div>
+
 {% endblock %}
 
 {% block tail_js %}
@@ -19,7 +48,7 @@ Live
 
 <script>
 if (flvjs.isSupported()){
-    // 获取video标签 
+    // 获取video标签
     var videoElement = document.getElementById('videoElement');
     // 初始化播放器
     var flvPlayer = flvjs.createPlayer({
@@ -31,13 +60,13 @@ if (flvjs.isSupported()){
         //url:'http://itshiyan.com/AppName/StreamName.flv?auth_key=1508294137-0-0-c12501a4ebb28d565a95187075cc5ee0
 
         // 随意找
-       // url:'https://js.live-play.acgvideo.com/live-js/480483/live_274790477_3174609.flv?wsSecret=def4974704ae852cf40653bd0bd50117&wsTime=1525687942' 
+        // url:'https://js.live-play.acgvideo.com/live-js/480483/live_274790477_3174609.flv?wsSecret=def4974704ae852cf40653bd0bd50117&wsTime=1525687942'
         url:'https://cn-nmghhht-cu-live-03.live-play.acgvideo.com/live-bvc/346069/live_7905675_8045649.flv?expires=1525855676&ssig=JzhB7TC8TsMrw_yvQ-t2eA&oi=3395958394'
     });
 
     flvPlayer.attachMediaElement(videoElement)
-    flvPlayer.load();
-    
+        flvPlayer.load();
+
     // 播放直播
     flvPlayer.play()
 }

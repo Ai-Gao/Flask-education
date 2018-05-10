@@ -1,3 +1,11 @@
+from flask import Blueprint
+
+ws = Blueprint('ws', __name__, url_prefix='/ws')
+
+
+
+
+"""
 from flask import Blueprint, render_template
 import redis
 import gevent
@@ -51,4 +59,4 @@ def outbox(ws):
 @ws.route('/live')
 def index():
     return render_template('live/index.html')
-
+"""
