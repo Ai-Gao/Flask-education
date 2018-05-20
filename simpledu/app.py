@@ -41,7 +41,7 @@ def register_blueprints(app):
     app.register_blueprint(course)
     app.register_blueprint(admin)
     app.register_blueprint(live)
-    app.register_blueprint(ws)
+
     # flask-sockets支持为Websockets注册蓝图
     sockets = Sockets(app)
     sockets.register_blueprint(ws)

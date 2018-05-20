@@ -40,6 +40,13 @@ Live
     </div>
 </div>
 
+<script>
+    var inbox = new WebSocket('ws://' + location.host + '/ws/recv');
+
+    var outbox = new WebSocket('ws://' + location.host + '/ws/send')
+
+</script>
+
 {% endblock %}
 
 {% block tail_js %}
