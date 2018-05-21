@@ -52,7 +52,7 @@ chat.start()
 
 # 定义send发送信息路由
 @ws.route('/send')
-def index(ws):
+def inbox(ws):
     # flask-sockets,ws对象将被自动注入到路由处理函数
     while not ws.closed:
         message = ws.receive()
