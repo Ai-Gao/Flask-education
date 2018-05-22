@@ -64,6 +64,7 @@ def inbox(ws):
 @ws.route('/recv')
 def outbox(ws):
     chat.register(ws)
+    redis.publish('chat', json.dumps(dict(username='New user come in, people count', text=len(chat.clients))))
     while not ws.closed:
         gevent.sleep(0.1)
 

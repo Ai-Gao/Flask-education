@@ -192,3 +192,8 @@ class LiveForm(FlaskForm):
         db.session.add(live)
         db.session.commit()
         return live
+
+# 自动以验证函数 message
+class MessageForm(FlaskForm):
+    text = StringField('系统消息', validators=[Required(), Length(1,256)])
+    submit = SubmitField('提交')
