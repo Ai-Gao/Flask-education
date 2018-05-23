@@ -137,6 +137,7 @@ class UserForm(FlaskForm):
     password = PasswordField('密码', validators=[Required(), Length(6,24)])
     role = IntegerField('用户角色', validators=[Required(),NumberRange(min=1, message='无效的用户角色')])
     job = StringField('工作', validators=[Required(), Length(3,24)])
+    img = StringField('头像', validators=[Required()])
     submit = SubmitField('提交')
 
     user = None

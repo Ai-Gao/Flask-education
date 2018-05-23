@@ -40,6 +40,7 @@ class User(Base):
     job = db.Column(db.String(64))
     publish_courses = db.relationship('Course')
     publish_live = db.relationship('Live')
+    img = db.Column(db.String(256))
 
    # 定义一个__repr__方法，输出调用结果
     def __repr__(self):
