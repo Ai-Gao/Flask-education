@@ -16,26 +16,57 @@ Admin
         </div>
 
         {% block operation %}
-            <a href='{{ url_for('admin.create_course')}} ' type='button' class='btn btn-primary'>
-                <span class='glyphicon glyphicon-plus' aria-hidden='true'></span>
-                添加课程
-            </a>
-            <p></p>
-            <a href='{{url_for('admin.create_user')}}' class='btn btn-primary'>
-                <span class='glyphicon glyphicon-plus' aria-hidden='true'></span>
-                添加用户
-            </a>
-            <p></p>
-            <a href='{{url_for('admin.create_live')}}' type='button' class='btn btn-primary'>
+        <a href='{{ url_for('admin.create_course')}} ' type='button' class='btn btn-primary'>
             <span class='glyphicon glyphicon-plus' aria-hidden='true'></span>
-            Add Live 
-            </a>
+            添加课程
+        </a>
+        <p></p>
+        <a href='{{url_for('admin.create_user')}}' class='btn btn-primary'>
+            <span class='glyphicon glyphicon-plus' aria-hidden='true'></span>
+            添加用户
+        </a>
+        <p></p>
+        <a href='{{url_for('admin.create_live')}}' type='button' class='btn btn-primary'>
+            <span class='glyphicon glyphicon-plus' aria-hidden='true'></span>
+            Add Live
+        </a>
         {% endblock %}
     </div>
 
     <div class='col-md-9'>
         <h4>管理数据展示</h4>
-        {% block admin %}{% endblock %}
+
+        {% block admin %}
+
+
+        <div class='col-sm-6 col-md-9'>
+
+            <a href='#' class='thumbnail'>
+                <img src= "https://dn-simplecloud.shiyanlou.com/1439809658374.png"></img>
+            </a>
+
+<!--            <div data-v-72bea96c role='search' class='navbar-form navbar-bottom'>
+                <div data-v-72bea96c class='form-group'>
+                    <label data-v-72bea96c name='search'>
+                        <i data-v-72bea96c class='fa fa-search'>
+                            <span class='glyphicon glyphicon-search' aria-hidden=true></span>
+                        </i>
+                    </label>
+                    <input data-v-72bea96c type='text' name='search' autocomplete='off' placeholder='搜索 课程/问答' class='form-control'>
+                </div>
+            </div>
+
+        </div>
+-->   
+        <div class='input-group'>
+            <input type='text' class='form-control' placeholder='搜索 课程/问答' class='form-control'> 
+
+            <span class='input-group-btn'>
+                <button class='btn btn-default' type='button'>Search</button> 
+            </span>
+        </div>
+
+
+        {% endblock %}
     </div>
-</div>
-{% endblock %}
+    {% endblock %}
