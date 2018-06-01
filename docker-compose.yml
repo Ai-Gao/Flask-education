@@ -2,7 +2,7 @@ version: "2"
 services:
    web:
      build: .
-     command: python -u manage.py
+     command: gunicorn -k flask_sockets.worker -b 0.0.0.0:5000 manage:app 
      ports:
          - "80:5000"
      volumes:
@@ -38,6 +38,10 @@ services:
            - mysqldb
        networks:
             - inner 
+   redis:
+     image: redis
+     networks:
+       - inner 
 
 networks:
   inner:

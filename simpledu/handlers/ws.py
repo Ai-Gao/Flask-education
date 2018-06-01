@@ -7,7 +7,7 @@ ws = Blueprint('ws', __name__, url_prefix='/ws')
 
 # 创建 redis 连接
 
-redis = redis.from_url('redis://127.0.0.1:6379')
+redis = redis.from_url('redis://redis:6379')
 
 class Chatroom(object):
     def __init__(self):
